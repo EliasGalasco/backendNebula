@@ -1,0 +1,184 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: var(--font-body), sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 267 50% 96%; /* Very light lavender (#F4F0F9) */
+    --foreground: 267 15% 25%; /* Dark grayish purple for text */
+
+    --card: 267 50% 99%; /* Slightly off-white lavender for cards */
+    --card-foreground: 267 15% 25%;
+
+    --popover: 267 50% 99%; /* Slightly off-white lavender for popovers */
+    --popover-foreground: 267 15% 25%;
+
+    --primary: 267 33% 63%; /* Dark lavender (#947EC3) */
+    --primary-foreground: 267 50% 98%; /* Very light color for text on primary */
+    --primary-hsl-values: 267, 33%, 63%;
+
+    --secondary: 267 40% 88%; /* Lighter, less saturated lavender */
+    --secondary-foreground: 267 15% 35%;
+    --secondary-hsl-values: 267, 40%, 88%;
+
+    --muted: 267 40% 92%; /* Even more muted lavender */
+    --muted-foreground: 267 15% 50%;
+
+    --accent: 180 33% 63%; /* Light blue (#7EC3C3) */
+    --accent-foreground: 180 25% 20%; /* Dark color for text on accent */
+    --accent-hsl-values: 180, 33%, 63%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 267 30% 85%;
+    --input: 267 30% 90%;
+    --ring: 267 33% 63%; /* Primary color for rings */
+
+    --radius: 0.5rem;
+
+    --chart-1: 267 33% 63%;
+    --chart-2: 180 33% 63%;
+    --chart-3: 267 40% 75%;
+    --chart-4: 180 40% 75%;
+    --chart-5: 267 25% 50%;
+
+    --sidebar-background: 260 20% 15%;
+    --sidebar-foreground: 260 10% 85%;
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--accent);
+    --sidebar-accent-foreground: var(--accent-foreground);
+    --sidebar-border: 260 20% 25%;
+    --sidebar-ring: var(--ring);
+
+    /* Star effect variables for light theme */
+    --star-color-raw: 267, 25%, 85%; /* A more visible light lavender/grey for stars */
+    --star-opacity-small-min: 0.4;
+    --star-opacity-small-max: 0.75;
+    --star-opacity-medium-min: 0.55;
+    --star-opacity-medium-max: 0.95;
+  }
+
+  .dark {
+    --background: 267 10% 10%;
+    --foreground: 267 10% 85%;
+
+    --card: 267 10% 15%;
+    --card-foreground: 267 10% 85%;
+
+    --popover: 267 10% 15%;
+    --popover-foreground: 267 10% 85%;
+
+    --primary: 267 40% 70%;
+    --primary-foreground: 267 10% 5%;
+    --primary-hsl-values: 267, 40%, 70%;
+
+    --secondary: 267 15% 25%;
+    --secondary-foreground: 267 10% 85%;
+    --secondary-hsl-values: 267, 15%, 25%;
+
+    --muted: 267 15% 20%;
+    --muted-foreground: 267 10% 60%;
+
+    --accent: 180 40% 70%;
+    --accent-foreground: 180 10% 5%;
+    --accent-hsl-values: 180, 40%, 70%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 267 15% 25%;
+    --input: 267 15% 25%;
+    --ring: 180 40% 70%;
+
+    --sidebar-background: 267 10% 8%;
+    --sidebar-foreground: 260 10% 85%;
+    --sidebar-border: 267 10% 12%;
+
+    /* Star effect variables for dark theme */
+    --star-color-raw: 260, 10%, 85%; /* Light grey stars */
+    --star-opacity-small-min: 0.3;
+    --star-opacity-small-max: 0.6;
+    --star-opacity-medium-min: 0.4;
+    --star-opacity-medium-max: 0.8;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  @keyframes animate-stars-medium {
+    from { background-position: 0 0; }
+    to { background-position: -10000px 5000px; }
+  }
+
+  @keyframes animate-stars-small {
+    from { background-position: 0 0; }
+    to { background-position: -7500px 3750px; }
+  }
+
+  @keyframes twinkle-medium {
+    0%, 100% { opacity: var(--star-opacity-medium-min); }
+    50% { opacity: var(--star-opacity-medium-max); }
+  }
+
+  @keyframes twinkle-small {
+    0%, 100% { opacity: var(--star-opacity-small-min); }
+    50% { opacity: var(--star-opacity-small-max); }
+  }
+
+  body {
+    @apply text-foreground;
+    @apply transition-colors duration-300;
+    background-color: hsl(var(--background)); /* Base color */
+  }
+
+  body::before,
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none; /* Allow clicks to pass through */
+    z-index: -1; /* Position behind content */
+  }
+
+  /* Layer 1: "Medium" stars, appears on top, moves faster, twinkles brighter */
+  body::before {
+    background-image:
+      radial-gradient(2.5px 2.5px at 50px 100px, hsla(var(--star-color-raw), 1), transparent),
+      radial-gradient(2px 2px at 150px 250px, hsla(var(--star-color-raw), 1), transparent),
+      radial-gradient(2.5px 2.5px at 270px 80px, hsla(var(--star-color-raw), 1), transparent),
+      radial-gradient(2px 2px at 400px 200px, hsla(var(--star-color-raw), 1), transparent);
+    background-repeat: repeat;
+    background-size: 500px 500px; /* Single size for all gradients in this layer */
+    animation: animate-stars-medium 180s linear infinite, twinkle-medium 7s ease-in-out infinite alternate;
+  }
+
+  /* Layer 2: "Small" stars, appears behind Layer 1, moves slower, twinkles dimmer */
+  body::after {
+    background-image:
+      radial-gradient(1.5px 1.5px at 20px 30px, hsla(var(--star-color-raw), 1), transparent),
+      radial-gradient(1px 1px at 80px 10px, hsla(var(--star-color-raw), 1), transparent),
+      radial-gradient(1.5px 1.5px at 120px 170px, hsla(var(--star-color-raw), 1), transparent),
+      radial-gradient(1px 1px at 180px 90px, hsla(var(--star-color-raw), 1), transparent),
+      radial-gradient(1.2px 1.2px at 250px 150px, hsla(var(--star-color-raw), 1), transparent);
+    background-repeat: repeat;
+    background-size: 350px 350px; /* Single size for all gradients in this layer */
+    animation: animate-stars-small 220s linear infinite, twinkle-small 5s ease-in-out infinite alternate;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}

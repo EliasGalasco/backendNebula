@@ -1,0 +1,125 @@
+
+.saturnContainer {
+  position: fixed;
+  bottom: 5vh;
+  right: 5vw;
+  width: clamp(130px, 15vw, 220px); 
+  aspect-ratio: 200 / 120;
+  z-index: -2; 
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeInSaturn 4s 1.5s ease-out forwards;
+  transform: perspective(600px) rotateX(15deg) rotateY(-15deg) scale(0.9); 
+}
+
+@keyframes fadeInSaturn {
+  to {
+    opacity: 0.85;
+    transform: perspective(600px) rotateX(10deg) rotateY(-10deg) scale(1);
+  }
+}
+
+.saturn {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.planet {
+  width: 45%; 
+  padding-bottom: 45%; 
+  height: 0;
+  background: radial-gradient(circle at 35% 35%, hsla(var(--accent-hsl-values), 0.95), hsla(var(--primary-hsl-values), 1) 75%);
+  border-radius: 50%;
+  box-shadow: 
+    inset -9px -5px 18px hsla(var(--foreground), 0.18), 
+    0 0 12px hsla(var(--accent-hsl-values), 0.65),
+    0 0 22px hsla(var(--primary-hsl-values), 0.45);
+  position: relative;
+  z-index: 2; 
+  animation: planetShine 8s ease-in-out infinite alternate;
+}
+
+@keyframes planetShine {
+  0% { filter: brightness(0.9) saturate(0.95); transform: scale(1); }
+  50% { filter: brightness(1.15) saturate(1.1); transform: scale(1.02); }
+  100% { filter: brightness(0.9) saturate(0.95); transform: scale(1); }
+}
+
+.ringsOuter {
+  position: absolute;
+  width: 100%; 
+  height: 50%; 
+  border-radius: 50%;
+  z-index: 1; 
+  animation: ringsSway 18s ease-in-out infinite alternate;
+  transform-style: preserve-3d; 
+}
+
+@keyframes ringsSway {
+  0% { transform: rotateZ(-6deg) rotateX(70deg) rotateY(0deg); }
+  50% { transform: rotateZ(0deg) rotateX(78deg) rotateY(6deg); }
+  100% { transform: rotateZ(6deg) rotateX(70deg) rotateY(-6deg); }
+}
+
+.ringsInner { 
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 18px hsla(var(--accent-hsl-values), 0.55); 
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    hsla(var(--accent-hsl-values), 0.75) 0deg,
+    hsla(var(--primary-hsl-values), 0.85) 90deg,
+    hsla(var(--secondary-hsl-values), 0.75) 180deg,
+    hsla(var(--primary-hsl-values), 0.85) 270deg,
+    hsla(var(--accent-hsl-values), 0.75) 360deg
+  );
+  animation: spinRingColors 22s linear infinite;
+  overflow: hidden; /* Evita que el ::after se salga si es más grande */
+}
+
+.ringsInner::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 55%; 
+  height: 70%;
+  transform: translate(-50%, -50%);
+  background: hsl(var(--background)); 
+  border-radius: 50%;
+  z-index: 1; 
+}
+
+@keyframes spinRingColors {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.dark .planet {
+  background: radial-gradient(circle at 35% 35%, hsla(var(--accent-hsl-values), 0.85), hsla(var(--primary-hsl-values), 0.95) 75%);
+  box-shadow: 
+    inset -9px -5px 18px hsla(var(--foreground), 0.12),
+    0 0 15px hsla(var(--accent-hsl-values), 0.75),
+    0 0 28px hsla(var(--primary-hsl-values), 0.55);
+}
+
+.dark .ringsInner {
+   background: conic-gradient(
+    from 0deg at 50% 50%,
+    hsla(var(--accent-hsl-values), 0.8) 0deg,
+    hsla(var(--primary-hsl-values), 0.9) 90deg,
+    hsla(var(--secondary-hsl-values), 0.8) 180deg,
+    hsla(var(--primary-hsl-values), 0.9) 270deg,
+    hsla(var(--accent-hsl-values), 0.8) 360deg
+  );
+   box-shadow: 0 0 22px hsla(var(--accent-hsl-values), 0.7);
+}
+.dark .ringsInner::after {
+  background: hsl(var(--background));
+}
